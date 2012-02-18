@@ -53,7 +53,11 @@ World.prototype.draw = function() {
 }
 
 World.prototype.update = function() {
-  for (var i in this.objects) {this.objects[i].update()}
+  for (var i in this.objects) {this.updateObject(this.objects[i])}
+}
+
+World.prototype.updateObject = function(object) {
+  object.update()
 }
 
 World.prototype.drawFPS = function() {
