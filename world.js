@@ -73,17 +73,17 @@ World.prototype.drawFPS = function() {
   this.context.fillText('FPS: ' + fps, 5, this.height);
 }
 
-window.requestAnimFrame = function(callback) { window.setTimeout(callback, 1000 / 60) };
-//window.requestAnimFrame = (function(){
-//  return  window.requestAnimationFrame       ||
-//          window.webkitRequestAnimationFrame ||
-//          window.mozRequestAnimationFrame    ||
-//          window.oRequestAnimationFrame      ||
-//          window.msRequestAnimationFrame     ||
-//          function(callback, element) {
-//            window.setTimeout(callback, 1000 / 60);
-//          };
-//})();
+//window.requestAnimFrame = function(callback) { window.setTimeout(callback, 1000 / 60) };
+window.requestAnimFrame = (function(){
+  return  window.requestAnimationFrame       ||
+          window.webkitRequestAnimationFrame ||
+          window.mozRequestAnimationFrame    ||
+          window.oRequestAnimationFrame      ||
+          window.msRequestAnimationFrame     ||
+          function(callback, element) {
+            window.setTimeout(callback, 1000 / 60);
+          };
+})();
 
 World.prototype.run = function(scope) {
   scope = typeof(scope) != 'undefined' ? scope : this;
