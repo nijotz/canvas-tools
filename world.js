@@ -1,6 +1,5 @@
 define(function() {
 
-
 World.prototype = new Object;
 World.prototype.constructor = World;
 function World(canvas) {
