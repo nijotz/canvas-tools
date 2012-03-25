@@ -1,6 +1,5 @@
 define(function() {
 
-
 World.prototype = new Object;
 World.prototype.constructor = World;
 function World(canvas) {
@@ -10,7 +9,6 @@ function World(canvas) {
   this.frametimes = new Array();
   this.ticks = 30;
   this.objects = new Array();
-  this.FPScolor = "rgb(0,0,0)";
 
   this.setCanvas(canvas);
   
@@ -69,10 +67,12 @@ World.prototype.drawFPS = function() {
   var mspf = (this.frametimes[this.frametimes.length - 1] -
               this.frametimes[0]) / this.frametimes.length;
   var fps = parseInt(1 / mspf * 1000);
-  this.context.fillStyle = this.FPScolor;
+  this.context.fillStyle = "rgb(255,255,255)";
+  this.context.strokeStyle = "rgb(0,0,0)";
   this.context.font = "2em Arial";
   this.context.textBaseline = "bottom";
   this.context.fillText('FPS: ' + fps, 75, this.height);
+  this.context.strokeText('FPS: ' + fps, 75, this.height);
 }
 
 //window.requestAnimFrame = function(callback) { window.setTimeout(callback, 1000 / 60) };
