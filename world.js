@@ -9,6 +9,7 @@ function World(canvas) {
   this.frametimes = new Array();
   this.ticks = 30;
   this.objects = new Array();
+  this.color = "rgb(0,0,0)";
 
   this.setCanvas(canvas);
   
@@ -45,7 +46,7 @@ World.prototype.addObject = function(object) {
 World.prototype.draw = function() {
   var c = this.context;
 
-  c.fillStyle = "rgb(10,50,100)";
+  c.fillStyle = this.color;
   c.fillRect(0, 0, this.width, this.height);
 
   for (var i in this.objects) {this.objects[i].draw(c)}
