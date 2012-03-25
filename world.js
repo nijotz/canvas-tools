@@ -46,10 +46,11 @@ World.prototype.addObject = function(object) {
 
 World.prototype.draw = function() {
   var c = this.context;
+
   c.fillStyle = "rgb(10,50,100)";
   c.fillRect(0, 0, this.width, this.height);
 
-  for (var i in this.objects) {this.objects[i].draw()}
+  for (var i in this.objects) {this.objects[i].draw(c)}
   this.drawFPS();
 }
 
