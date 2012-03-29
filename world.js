@@ -13,8 +13,7 @@ function World(canvas) {
   this.displayFPS = false;
 
   this.setCanvas(canvas);
-  
-  window.addEventListener('resize', this.properlyScopedEventHandler(this.eventResize), false);
+  //window.addEventListener('resize', this.properlyScopedEventHandler(this.eventResize), false);
 }
 
 World.prototype.properlyScopedEventHandler = function(f) {
@@ -28,9 +27,9 @@ World.prototype.setHeight = function(h) { this.height = h; }
 World.prototype.setCanvas = function(canvas) {
   this.canvas = canvas;
   this.context = canvas.getContext('2d');
-  this.eventResize();
-  //this.setWidth(parseInt(canvas.getAttribute('width')));
-  //this.setHeight(parseInt(canvas.getAttribute('height')));
+  //this.eventResize();
+  this.setWidth(parseInt(canvas.getAttribute('width')));
+  this.setHeight(parseInt(canvas.getAttribute('height')));
 }
 
 World.prototype.eventResize = function() {
