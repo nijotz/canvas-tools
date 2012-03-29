@@ -46,8 +46,10 @@ World.prototype.addObject = function(object) {
 World.prototype.draw = function() {
   var c = this.context;
 
+  c.save();
   c.fillStyle = this.color;
   c.fillRect(0, 0, this.width, this.height);
+  c.restore();
 
   for (var i in this.objects) {this.objects[i].draw(c)}
 
