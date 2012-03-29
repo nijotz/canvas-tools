@@ -10,6 +10,7 @@ function World(canvas) {
   this.ticks = 30;
   this.objects = new Array();
   this.color = "rgb(0,0,0)";
+  this.displayFPS = false;
 
   this.setCanvas(canvas);
   
@@ -50,7 +51,8 @@ World.prototype.draw = function() {
   c.fillRect(0, 0, this.width, this.height);
 
   for (var i in this.objects) {this.objects[i].draw(c)}
-  this.drawFPS();
+
+  if (this.displayFPS) { this.drawFPS(); }
 }
 
 World.prototype.update = function() {
