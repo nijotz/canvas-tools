@@ -1,5 +1,27 @@
 define(function() {
 
+BaseEntity.prototype = new Object;
+BaseEntity.prototype.constructor = BaseEntity;
+function BaseEntity(world) {
+  this.world = world;
+  this.updaters = [];
+}
+
+BaseEntity.prototype.addUpdater = function(callback, sequence) {
+  sequence = (typeof sequence == 'undefined') ? 0 : sequence;
+  callback.sequence = sequence;
+  this.updaters.push(callback);
+  this.updaters.sort(function(a,b) {
+    return a.sequence - b.sequence
+  });
+}
+
+BaseEntity.prototype.update = function(interp) {
+  for (var i = 0; i < this.updaters.length; i++) {
+    this.updaters[i].call(this, interp);
+  }
+}
+
 World.prototype = new Object;
 World.prototype.constructor = World;
 function World(canvas) {
@@ -100,6 +122,9 @@ World.prototype.run = function(scope) {
   requestAnimFrame(function() {scope.run.call(scope, scope)});
 }
 
-return World;
+return {
+  'World': World,
+  'BaseEntity' :BaseEntity
+}
 
 });
