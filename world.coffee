@@ -1,4 +1,6 @@
 define ['jquery'], ($) ->
+
+  #TODO: how to handle scaling and entities using document.body.clientWidth or event.clientX?
   
   class BaseEntity
     constructor: (@world) ->
@@ -18,6 +20,7 @@ define ['jquery'], ($) ->
       @objects = []
       @width = 0
       @height = 0
+      @scale = 5 # Ratio of screen pixels to canvas pixels
       @frametimes = []
       @ticks = 30
       @objects = []
@@ -25,17 +28,17 @@ define ['jquery'], ($) ->
       @displayFPS = false
 
       @setCanvas(canvas)
-      window.addEventListener('resize', @eventResize, false);
+      window.addEventListener('resize', @eventResize, false)
 
     setCanvas: (@canvas) ->
       @context = @canvas.getContext('2d')
       @eventResize()
 
     eventResize: =>
-      @canvas.width = document.body.clientWidth
-      @canvas.height = document.body.clientHeight
-      @setWidth( $(@canvas).width() )
-      @setHeight( $(@canvas).height() )
+      @canvas.width = Math.floor(document.body.clientWidth / @scale)
+      @canvas.height = Math.floor(document.body.clientHeight / @scale)
+      @setWidth( @canvas.width )
+      @setHeight( @canvas.height )
 
     setWidth: (@width) ->
       #empty
@@ -73,9 +76,9 @@ define ['jquery'], ($) ->
         @frametimes.length
 
       fps = parseInt(1 / mspf * 1000)
+
       @context.fillStyle = "rgb(255,255,255)"
       @context.strokeStyle = "rgb(0,0,0)"
-      @context.font = "2em Arial"
       @context.textBaseline = "bottom"
       @context.fillText('FPS: ' + fps, 5, this.height)
       @context.strokeText('FPS: ' + fps, 5, this.height)
@@ -112,6 +115,10 @@ define ['jquery'], ($) ->
     # 
     #   clean_up();
     # }
+      @context.font = (2 / @scale).toString() + "em Arial"
+      @context.strokeText('FPS: ' + fps, 5, @height)
+      @context.fillText('FPS: ' + fps, 5, @height)
+
     run: =>
       @draw()
       @update()
