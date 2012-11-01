@@ -80,6 +80,38 @@ define ['jquery'], ($) ->
       @context.fillText('FPS: ' + fps, 5, this.height)
       @context.strokeText('FPS: ' + fps, 5, this.height)
 
+    # TODO: no no no, seperate draw and update loops
+    # from flow/world.cpp:
+    #
+    # void World::run()
+    # {
+    #   //TODO: assure NDEBUG for release build
+    #   assert(initialized);
+    # 
+    #   int loops = 0;
+    #   float interp = 0.0f; // track percentage of the way to next tick
+    #   Uint32 next_tick = SDL_GetTicks();
+    # 
+    #   while (quit == false) {
+    # 
+    #     //Call think() every tick. If think takes so long that it needs to be called
+    #     //again immediately, call it again.  But don't go more than MAX_FRAMESKIP
+    #     //ticks without rendering a frame.
+    #     loops = 0;
+    #     while (SDL_GetTicks() > next_tick && loops < MAX_FRAMESKIP) {
+    #       think();
+    #       next_tick += SKIP_TICKS;
+    #       loops++;
+    #     }
+    # 
+    #     //time_to_next_update = next_tick - SDL_GetTicks();
+    #     interp = float(SKIP_TICKS - (next_tick - SDL_GetTicks())) /
+    #              float(SKIP_TICKS);
+    #     draw(interp);
+    #   }
+    # 
+    #   clean_up();
+    # }
     run: =>
       @draw()
       @update()
