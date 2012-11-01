@@ -20,7 +20,7 @@ define ['jquery'], ($) ->
       @objects = []
       @width = 0
       @height = 0
-      @scale = 5 # Ratio of screen pixels to canvas pixels
+      @scale = 1 # Ratio of screen pixels to canvas pixels
       @frametimes = []
       @ticks = 30
       @objects = []
