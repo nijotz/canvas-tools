@@ -116,8 +116,8 @@ define ['jquery'], ($) ->
     #   clean_up();
     # }
       @context.font = (2 / @scale).toString() + "em Arial"
-      @context.strokeText('FPS: ' + fps, 5, @height)
       @context.fillText('FPS: ' + fps, 5, @height)
+      @context.strokeText('FPS: ' + fps, 5, @height)
 
     run: =>
       @draw()
