@@ -9,6 +9,8 @@ define () ->
 
   # TODO: Keep the last few strokes from every objects and fade them out
 
+  # TODO: change lineTo's to beziers
+
   # This function takes a canvas element and wraps the getContext function with
   # a function that wraps the returned context object.  The new context object
   # will slightly modify coordinate arguments of draw functions to inject a 
