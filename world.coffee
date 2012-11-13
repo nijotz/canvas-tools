@@ -18,7 +18,6 @@ define ['jquery'], ($) ->
 
   class World
     constructor: (canvas) ->
-      @objects = []
       @width = 0
       @height = 0
       @scale = 1 # Ratio of screen pixels to canvas pixels
