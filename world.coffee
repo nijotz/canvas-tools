@@ -1,6 +1,7 @@
 define ['jquery'], ($) ->
 
   #TODO: how to handle scaling and entities using document.body.clientWidth or event.clientX?
+  #TODO: pass interpolation between draw commands to objects
   
   class BaseEntity
     constructor: (@world) ->
