@@ -19,8 +19,13 @@ define ['cs!canvas-tools/world'], (World) ->
 
   class SketchedWorld extends World.World
     constructor: (canvas) ->
-      super
-      @color = "rgb(255,255,255)"
+      super(canvas)
+
+      @sketches = []
+
+      # Number of past sketched lines to keep on the screen
+      @num_sketches = 4
+      @cur_sketch = 0
 
       # The functions to override and the arguments to modify
       @overrides = {
@@ -64,6 +69,58 @@ define ['cs!canvas-tools/world'], (World) ->
 
         return context
 
-      @modifyContext(@context)
+    addObject: (object) ->
+      sketches = []
+      for i in [0..@num_sketches]
+        canvas = document.createElement('canvas')
+        canvas.width = @width
+        canvas.height = @height
+        sketches.push(canvas)
+      @objects.push(object)
+      @sketches.push(sketches)
+
+    draw: ->
+
+      # clear the canvas
+      @color = "rgb(255,255,255)"
+      @context.save()
+      @context.fillStyle = @color
+      @context.fillRect(0, 0, @width, @height)
+      @context.restore()
+
+      # sketch every object
+      for obj, i in @objects
+
+        # modify the current sketch in the cycle
+        sketches = @sketches[i]
+        context = sketches[@cur_sketch].getContext('2d')
+        context.clearRect(0, 0, @width, @height)
+        sketcher = @modifyContext(context)
+        obj.draw(sketcher)
+
+        # Draw every num_sketches sketch of this object
+        @context.save()
+
+        @context.globalAlpha = 1
+        sketch_num = @cur_sketch
+        for i in [0..@num_sketches]
+          # alpha decreases as we iterate through the sketches
+          @context.globalAlpha = 1 / (i + 1)
+          sketch = sketches[sketch_num]
+          @context.drawImage(sketch, 0, 0)
+
+          sketch_num += 1
+          if sketch_num >= @num_sketches
+            sketch_num = 0
+
+        @context.restore()
+
+      # keep track of which sketch we modify on the next draw
+      @cur_sketch += 1
+      if @cur_sketch >= @num_sketches
+        @cur_sketch = 0
+
+      if @displayFPS
+        @drawFPS()
 
   return SketchedWorld
