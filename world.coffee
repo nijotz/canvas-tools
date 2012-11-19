@@ -58,7 +58,7 @@ define ['jquery'], ($) ->
       obj.draw(@context) for obj in @objects
 
       if @displayFPS
-        @drawFPS() 
+        @drawFPS()
 
     update: ->
       @updateObject(obj) for obj in @objects
