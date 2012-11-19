@@ -17,7 +17,50 @@ define ['cs!canvas-tools/world'], (World) ->
   # slight error every frame to simulate a hand drawn sketch.  Also, all fills
   # are changed to strokes
 
-  class SketchedWorld extends World.World
+
+  class SketcherContext extends CanvasRenderingContext2D
+    constructor: () ->
+      # The max amount that x/y coords will be offset is based on a percentage of
+      # the canvas width/height
+      @marginOfError = 0.0075
+
+      # change fills to strokes
+      #for func of this
+      #  if func.indexOf('fill') == 0 && func != 'fillRect' #TODO: don't need != fillRect?
+      #    if this['orig_' + func] == undefined
+      #      this['orig_' + func] = this[func]
+      #    this[func] = this[func.replace('fill', 'stroke')]
+      this['fill'] = this['stroke']
+      #this['fillStyle'] = this['strokeStyle']
+
+    arc: () ->
+      args = @nudge(arguments)
+      super args...
+
+    lineTo: () ->
+      args = @nudge(arguments)
+      super args...
+
+    arcTo: () ->
+      args = @nudge(arguments)
+      super args...
+
+    bezierCurveTo: () ->
+      args = @nudge(arguments)
+      super args...
+
+    nudge: (args) ->
+      nudged_args = []
+
+      for arg, i in args
+        base = @canvas.width
+        if i % 2
+          base = @canvas.height
+        nudged_args[i] = arg + base * @marginOfError * (-0.5 + Math.random())
+
+      return nudged_args
+
+  class SketcherWorld extends World.World
     constructor: (canvas) ->
       super(canvas)
 
@@ -26,48 +69,6 @@ define ['cs!canvas-tools/world'], (World) ->
       # Number of past sketched lines to keep on the screen
       @num_sketches = 4
       @cur_sketch = 0
-
-      # The functions to override and the arguments to modify
-      @overrides = {
-        'arc': ['x', 'y', 'r'],
-        'arcTo': ['x', 'y', 'x', 'y', 'r'],
-        'bezierCurveTo': ['x', 'y', 'x', 'y', 'x', 'y'],
-        'lineTo': ['x', 'y'],
-        'moveTo': ['x', 'y'],
-        'rect': ['x', 'y', 'x', 'y'],
-      }
-
-      # The max amount that x/y coords will be offset is based on a percentage of
-      # the canvas width/height
-      @marginOfError = 0.0075
-
-      # modify context draw calls to be sketch-like (introduce a margin of error)
-      @modifyContext = (context) =>
-        wrapDrawFunction = (context, func, args, width, height) =>
-          return () =>
-            for arg, i in args
-              #TODO: 'r' should be based on x and y
-              if arg == 'x' || arg == 'r'
-                base = width
-              else
-                base = height
-              arguments[i] += base * @marginOfError * (-0.5 + Math.random())
-            context['orig_' + func].apply(context, arguments)
-
-        # wrap draw functions with margin of error function
-        for func, args of @overrides
-          if context['orig_' + func] == undefined
-            context['orig_' + func] = context[func]
-          context[func] = wrapDrawFunction(context, func, args, @width, @height)
-
-        # change fills to strokes
-        for func of context
-          if func.indexOf('fill') == 0 && func != 'fillRect'
-            if context['orig_' + func] == undefined
-              context['orig_' + func] = context[func]
-            context[func] = context[func.replace('fill', 'stroke')]
-
-        return context
 
     addObject: (object) ->
       sketches = []
@@ -95,8 +96,9 @@ define ['cs!canvas-tools/world'], (World) ->
         sketches = @sketches[i]
         context = sketches[@cur_sketch].getContext('2d')
         context.clearRect(0, 0, @width, @height)
-        sketcher = @modifyContext(context)
-        obj.draw(sketcher)
+        context.__proto__ = SketcherContext.prototype
+        context.__proto__.constructor()
+        obj.draw(context)
 
         # Draw every num_sketches sketch of this object
         @context.save()
@@ -123,4 +125,4 @@ define ['cs!canvas-tools/world'], (World) ->
       if @displayFPS
         @drawFPS()
 
-  return SketchedWorld
+  return SketcherWorld
