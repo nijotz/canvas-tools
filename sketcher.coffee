@@ -72,14 +72,17 @@ define ['cs!canvas-tools/world'], (World) ->
       args = @nudge(arguments)
       super args...
 
-    nudge: (args) ->
+    nudge: (args, moe) ->
+      if !moe
+        moe = @marginOfError
+
       nudged_args = []
 
       for arg, i in args
         base = @canvas.width
         if i % 2
           base = @canvas.height
-        nudged_args[i] = arg + base * @marginOfError * (-0.5 + Math.random())
+        nudged_args[i] = arg + base * moe * (-0.5 + Math.random())
 
       return nudged_args
 
