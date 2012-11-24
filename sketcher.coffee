@@ -1,5 +1,14 @@
 define ['cs!canvas-tools/world'], (World) ->
 
+  # TODO: It would look better if lineTo and bezierCurveTo ended and
+  # started at a new point somewhat close to it, simulated an artist
+  # picking up their drawing utensil between lines. However, this would
+  # require completely redoing how SketcherContext functions. Rather than
+  # simply nudge coordinates as they come in and replace fillStyles with
+  # stroke followed by a white fill, it would have to save up all the
+  # instructions as they come in.  Then when a fill happens, apply all the
+  # instructions twice.  Once for the white fill, once for the seperate lines.
+
   class SketcherContext extends CanvasRenderingContext2D
     constructor: () ->
       # The max amount that x/y coords will be offset is based on a percentage of
