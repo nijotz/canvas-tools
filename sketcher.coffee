@@ -1,17 +1,4 @@
 define ['cs!canvas-tools/world'], (World) ->
-  # TODO: circles are never draw perfectly round by hand.  Transform
-  # and/or rotate.
-
-  # TODO: Keep the last few strokes from every objects and fade them out
-
-  # TODO: change lineTo's to beziers
-
-  # This function takes a canvas element and wraps the getContext function with
-  # a function that wraps the returned context object.  The new context object
-  # will slightly modify coordinate arguments of draw functions to inject a 
-  # slight error every frame to simulate a hand drawn sketch.  Also, all fills
-  # are changed to strokes
-
 
   class SketcherContext extends CanvasRenderingContext2D
     constructor: () ->
