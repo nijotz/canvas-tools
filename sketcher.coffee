@@ -17,7 +17,7 @@ define ['cs!canvas-tools/world'], (World) ->
     constructor: () ->
       # The max amount that x/y coords will be offset is based on a percentage of
       # the canvas width/height
-      @marginOfError = 0.0075
+      @marginOfError = 0.005
 
       # change fills to strokes
       #for func of this
