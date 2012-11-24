@@ -25,7 +25,7 @@ define ['cs!canvas-tools/world'], (World) ->
       #    if this['orig_' + func] == undefined
       #      this['orig_' + func] = this[func]
       #    this[func] = this[func.replace('fill', 'stroke')]
-      this['fill'] = this['stroke']
+      #this['fill'] = this['stroke']
       #this['fillStyle'] = this['strokeStyle']
 
     arc: () ->
@@ -39,6 +39,11 @@ define ['cs!canvas-tools/world'], (World) ->
     arcTo: () ->
       args = @nudge(arguments)
       super args...
+
+    fill: () ->
+      @fillStyle = 'rgba(255,255,255,0.9)'
+      super
+      @stroke()
 
     bezierCurveTo: () ->
       args = @nudge(arguments)
