@@ -73,18 +73,25 @@ define ['cs!canvas-tools/world'], (World) ->
       super args...
 
     nudge: (args, moe) ->
+
       if !moe
         moe = @marginOfError
 
       nudged_args = []
-
       for arg, i in args
+
+        # Usually even numbered coordinates are y (height-based)
         base = @canvas.width
         if i % 2
           base = @canvas.height
-        nudged_args[i] = arg + base * moe * (-0.5 + Math.random())
+
+        # randomly nudge the coordinate argument
+        nudged_args[i] = @_nudge(arg, base, moe)
 
       return nudged_args
+
+    _nudge: (val, base, moe) ->
+      return val + base * moe * (-0.5 + Math.random())
 
   class SketcherWorld extends World.World
     constructor: (canvas) ->
