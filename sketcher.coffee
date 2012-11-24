@@ -28,6 +28,9 @@ define ['cs!canvas-tools/world'], (World) ->
       #this['fill'] = this['stroke']
       #this['fillStyle'] = this['strokeStyle']
 
+      @curX = 0
+      @curY = 0
+
     arc: () ->
       args = arguments
       coords = [args[0], args[1]]
@@ -36,11 +39,24 @@ define ['cs!canvas-tools/world'], (World) ->
       args[1] = coords[1]
       super args...
 
-    lineTo: () ->
-      args = @nudge(arguments)
-      super args...
+    moveTo: (x, y) ->
+      @curX = x
+      @curY = y
+      super(x, y)
 
-    arcTo: () ->
+    lineTo: (x, y) ->
+      half = []
+      half[0] = (@curX + x) / 2
+      half[1] = (@curY + y) / 2
+      half = @nudge(half)
+
+      @curX = x
+      @curY = y
+
+      args = [half[0], half[1], half[0], half[1], x, y]
+      @bezierCurveTo args...
+
+    translate: () ->
       args = @nudge(arguments)
       super args...
 
@@ -50,6 +66,9 @@ define ['cs!canvas-tools/world'], (World) ->
       @stroke()
 
     bezierCurveTo: () ->
+      @curX = arguments[4]
+      @curY = arguments[5]
+
       args = @nudge(arguments)
       super args...
 
