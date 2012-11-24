@@ -1,9 +1,4 @@
 define ['cs!canvas-tools/world'], (World) ->
-  # TODO: world uses fillRect to clear frames. So there's an exception to the
-  # fill/stroke replacement code below. This needs to be turned into a world
-  # subclass that uses the normal context but provides a modified context to
-  # objects.
-
   # TODO: circles are never draw perfectly round by hand.  Transform
   # and/or rotate.
 
