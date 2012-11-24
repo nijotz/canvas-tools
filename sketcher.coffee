@@ -29,7 +29,11 @@ define ['cs!canvas-tools/world'], (World) ->
       #this['fillStyle'] = this['strokeStyle']
 
     arc: () ->
-      args = @nudge(arguments)
+      args = arguments
+      coords = [args[0], args[1]]
+      coords = @nudge(coords)
+      args[0] = coords[0]
+      args[1] = coords[1]
       super args...
 
     lineTo: () ->
