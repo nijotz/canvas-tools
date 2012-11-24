@@ -31,13 +31,28 @@ define ['cs!canvas-tools/world'], (World) ->
       @curX = 0
       @curY = 0
 
-    arc: () ->
+    arc: (x, y) ->
       args = arguments
+
+      # nudge only the coordiantes
       coords = [args[0], args[1]]
       coords = @nudge(coords)
-      args[0] = coords[0]
-      args[1] = coords[1]
+
+      @save()
+
+      # Do the move now rather than pass to super() so rotate()
+      # rotates arond the center of the arc
+      args[0] = 0
+      args[1] = 0
+      @translate(coords[0], coords[1])
+
+      # no one draws a perfect circle
+      @rotate(Math.random() * Math.PI * 2)
+      @scale(@_nudge(1, 1, 0.1), @_nudge(1, 1, 0.1))
+
       super args...
+
+      @restore()
 
     moveTo: (x, y) ->
       @curX = x
