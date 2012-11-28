@@ -72,6 +72,8 @@ define ['cs!canvas-tools/world'], (World) ->
       super args...
 
     fill: () ->
+      # TODO: this could be toggled to keep original color or
+      # make it look sketched.
       @fillStyle = 'rgba(255,255,255,0.9)'
       super
       @stroke()
