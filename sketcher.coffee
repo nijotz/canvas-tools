@@ -13,7 +13,7 @@ define ['cs!canvas-tools/world'], (World) ->
     constructor: () ->
       # The max amount that x/y coords will be offset is based on a percentage of
       # the canvas width/height
-      @marginOfError = 0.005
+      @marginOfError = 0.004
 
       # change fills to strokes
       #for func of this
@@ -59,7 +59,7 @@ define ['cs!canvas-tools/world'], (World) ->
       half = []
       half[0] = (@curX + x) / 2
       half[1] = (@curY + y) / 2
-      half = @nudge(half)
+      half = @nudge(half, @marginOfError * 2)
 
       @curX = x
       @curY = y
@@ -165,7 +165,7 @@ define ['cs!canvas-tools/world'], (World) ->
         sketch_num = @cur_sketch
         for i in [0..@num_sketches]
           # alpha decreases as we iterate through the sketches
-          @context.globalAlpha = 1 / (i + 1)
+          @context.globalAlpha = 1 / ((i + 1) * 2)
           sketch = sketches[sketch_num]
           @context.drawImage(sketch, 0, 0)
 
