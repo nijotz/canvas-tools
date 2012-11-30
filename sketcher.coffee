@@ -108,13 +108,25 @@ define ['cs!canvas-tools/world'], (World) ->
 
   class SketcherWorld extends World.World
     constructor: (canvas) ->
-      super(canvas)
-
       @sketches = []
 
       # Number of past sketched lines to keep on the screen
       @num_sketches = 4
       @cur_sketch = 0
+
+      super(canvas)
+
+    eventResize: =>
+      @canvas.width = Math.floor(document.body.clientWidth / @scale)
+      @canvas.height = Math.floor(document.body.clientHeight / @scale)
+      @setWidth( @canvas.width )
+      @setHeight( @canvas.height )
+
+      # get all the sketches too
+      for object_sketches in @sketches
+        for sketch in object_sketches
+          sketch.width = @width
+          sketch.height = @height
 
     addObject: (object) ->
       sketches = []
