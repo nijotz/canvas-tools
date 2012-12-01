@@ -27,6 +27,8 @@ define ['cs!canvas-tools/world'], (World) ->
       @curX = 0
       @curY = 0
 
+      @color = false
+
     arc: (x, y) ->
       args = arguments
 
@@ -72,9 +74,8 @@ define ['cs!canvas-tools/world'], (World) ->
       super args...
 
     fill: () ->
-      # TODO: this could be toggled to keep original color or
-      # make it look sketched.
-      @fillStyle = 'rgba(255,255,255,0.9)'
+      if !@color
+        @fillStyle = 'rgba(255,255,255,0.9)'
       super
       @stroke()
 
@@ -114,6 +115,8 @@ define ['cs!canvas-tools/world'], (World) ->
       @num_sketches = 4
       @cur_sketch = 0
 
+      @fillColor = false
+
       super(canvas)
 
     eventResize: =>
@@ -141,9 +144,8 @@ define ['cs!canvas-tools/world'], (World) ->
     draw: ->
 
       # clear the canvas
-      @color = "rgb(255,255,255)"
       @context.save()
-      @context.fillStyle = @color
+      @context.fillStyle = "rgb(255,255,255)"
       @context.fillRect(0, 0, @width, @height)
       @context.restore()
 
@@ -151,11 +153,13 @@ define ['cs!canvas-tools/world'], (World) ->
       for obj, i in @objects
 
         # modify the current sketch in the cycle
+        # TODO. changing proto every frame..
         sketches = @sketches[i]
         context = sketches[@cur_sketch].getContext('2d')
         context.clearRect(0, 0, @width, @height)
         context.__proto__ = SketcherContext.prototype
         context.__proto__.constructor()
+        context.color = @fillColor
         obj.draw(context)
 
         # Draw every num_sketches sketch of this object
