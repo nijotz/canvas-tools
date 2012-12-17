@@ -10,9 +10,9 @@ define [], () ->
       @y = 0
 
     resize: (@width = 0, @height = 0) ->
-      if !@width:
+      if !@width
         @width = @world.width
-      if !@height:
+      if !@height
         @height = @world.height
 
       @canvas.width = @width
@@ -102,7 +102,7 @@ define [], () ->
 
     run: =>
       loops = 0
-      while (new Date).getTime() > @next_tick && loops < @max_frameskip:
+      while (new Date).getTime() > @next_tick && loops < @max_frameskip
         @update()
         @next_tick += @tick_time
         loops += 1
