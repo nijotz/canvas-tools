@@ -47,6 +47,15 @@ define [], () ->
       @setCanvas(canvas)
       window.addEventListener('resize', @eventResize, false)
 
+      window.requestAnimFrame = (() ->
+        return window.requestAnimationFrame       ||
+               window.webkitRequestAnimationFrame ||
+               window.mozRequestAnimationFrame    ||
+               window.oRequestAnimationFrame      ||
+               window.msRequestAnimationFrame     ||
+               (callback, element) ->
+                 window.setTimeout(callback, 1000 / 60))()
+
     setCanvas: (@canvas) ->
       @context = @canvas.getContext('2d')
       @eventResize()
@@ -111,16 +120,8 @@ define [], () ->
       interp = ((new Date).getTime() + @tick_time - @next_tick) / @tick_time
       @draw(@context, interp)
 
-      @requestAnimFrame(@run)
+      requestAnimFrame(@run)
 
-    requestAnimFrame:  ->
-      return  window.requestAnimationFrame       ||
-              window.webkitRequestAnimationFrame ||
-              window.mozRequestAnimationFrame    ||
-              window.oRequestAnimationFrame      ||
-              window.msRequestAnimationFrame     ||
-              (callback, element) ->
-                window.setTimeout(callback, 1000 / 60)
 
   module =
     World: World
