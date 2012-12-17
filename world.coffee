@@ -1,4 +1,4 @@
-define ['jquery'], ($) ->
+define [], () ->
 
   class BaseEntity
     constructor: (@world, @width = 0, @height = 0) ->
