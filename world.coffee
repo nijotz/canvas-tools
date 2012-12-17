@@ -80,6 +80,7 @@ define ['jquery'], ($) ->
       @context.fillStyle = "rgb(255,255,255)"
       @context.strokeStyle = "rgb(0,0,0)"
       @context.textBaseline = "bottom"
+      @context.font = (2 / @scale).toString() + "em Arial"
       @context.fillText('FPS: ' + fps, 5, this.height)
       @context.strokeText('FPS: ' + fps, 5, this.height)
 
