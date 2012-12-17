@@ -4,17 +4,35 @@ define ['jquery'], ($) ->
   #TODO: pass interpolation between draw commands to objects
   
   class BaseEntity
-    constructor: (@world) ->
+    constructor: (@world, @width = 0, @height = 0) ->
+      @canvas = document.createElement('canvas')
+      @resize(@width, @height)
       @updaters = []
+      @redraw = true
+      @x = 0
+      @y = 0
+
+    resize: (@width = 0, @height = 0) ->
+      if !@width:
+        @width = @world.width
+      if !@height:
+        @height = @world.height
+
+      @canvas.width = @width
+      @canvas.height= @height
 
     addUpdater: (callback, sequence = 0) ->
       callback.sequence = sequence
       @updaters.push(callback)
       @updaters.sort((a,b) -> return a.sequence - b.sequence)
 
-    update: (interp) ->
+    draw: (context, interp) ->
+      context.drawImage(@canvas, @x, @y)
+
+    update: () ->
       for updater in @updaters
-        updater.call(this, interp)
+        updater.call(this)
+
 
   class World
     constructor: (canvas) ->
@@ -50,13 +68,13 @@ define ['jquery'], ($) ->
     addObject: (object) ->
       @objects.push(object)
 
-    draw: ->
-      @context.save()
-      @context.fillStyle = @color
-      @context.fillRect(0, 0, @width, @height)
-      @context.restore()
+    draw: (context, interp) ->
+      context.save()
+      context.fillStyle = @color
+      context.fillRect(0, 0, @width, @height)
+      context.restore()
 
-      obj.draw(@context) for obj in @objects
+      obj.draw(context, interp) for obj in @objects
 
       if @displayFPS
         @drawFPS()
