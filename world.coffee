@@ -16,7 +16,7 @@ define [], () ->
         @height = @world.height
 
       @canvas.width = @width
-      @canvas.height= @height
+      @canvas.height = @height
 
     addUpdater: (callback, sequence = 0) ->
       callback.sequence = sequence
