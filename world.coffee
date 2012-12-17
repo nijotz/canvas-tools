@@ -104,7 +104,6 @@ define ['jquery'], ($) ->
       @context.strokeText('FPS: ' + fps, 5, this.height)
 
     run: =>
-
       loops = 0
       while (new Date).getTime() > @next_tick && loops < @max_frameskip:
         @update()
