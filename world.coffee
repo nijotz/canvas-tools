@@ -116,29 +116,20 @@ define ['jquery'], ($) ->
     # 
     #   clean_up();
     # }
-      @context.font = (2 / @scale).toString() + "em Arial"
-      @context.fillText('FPS: ' + fps, 5, @height)
-      @context.strokeText('FPS: ' + fps, 5, @height)
-
     run: =>
       @draw()
       @update()
 
-      #@requestAnimFrame(this)
-      window.mozRequestAnimationFrame(@run)
+      @requestAnimFrame(@run)
 
     requestAnimFrame:  ->
-      return window.mozRequestAnimationFrame
-      #return window.requestAnimationFrame
-      #return  window.requestAnimationFrame       ||
-      #        window.webkitRequestAnimationFrame ||
-      #        window.mozRequestAnimationFrame    ||
-      #        window.oRequestAnimationFrame      ||
-      #        window.msRequestAnimationFrame     ||
-      #        (callback, element) ->
-      #          window.setTimeout(callback, 1000 / 60)
-      #)
-
+      return  window.requestAnimationFrame       ||
+              window.webkitRequestAnimationFrame ||
+              window.mozRequestAnimationFrame    ||
+              window.oRequestAnimationFrame      ||
+              window.msRequestAnimationFrame     ||
+              (callback, element) ->
+                window.setTimeout(callback, 1000 / 60)
 
   module =
     World: World
