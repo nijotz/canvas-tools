@@ -37,7 +37,7 @@ define [], () ->
       @height = 0
       @scale = 1 # Ratio of screen pixels to canvas pixels
       @frametimes = []
-      @ticks = 30
+      @ticks = 240 # TODO: fucking broke, should be 30
       @tick_time = 1000 / @ticks
       @next_tick = 0
       @max_frameskip = 5 # how many update calls to perform without a draw call
