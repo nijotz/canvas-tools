@@ -37,9 +37,9 @@ define [], () ->
       @height = 0
       @scale = 1 # Ratio of screen pixels to canvas pixels
       @frametimes = []
-      @ticks = 240 # TODO: fucking broke, should be 30
-      @tick_time = 1000 / @ticks
-      @next_tick = 0
+      @ticks = 100
+      @tick_time = 1000 / @ticks # How many ms between ticks
+      @next_tick = (new Date).getTime()
       @max_frameskip = 5 # how many update calls to perform without a draw call
       @objects = []
       @color = "rgb(0,0,0)"
