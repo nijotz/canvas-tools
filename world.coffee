@@ -112,7 +112,14 @@ define [], () ->
 
     run: =>
       loops = 0
-      while (new Date).getTime() > @next_tick && loops < @max_frameskip
+      time = (new Date).getTime()
+      while time > @next_tick && loops < @max_frameskip
+        # If we've missed a large amount of ticks, the JS was probably paused
+        # because the tab didn't have focus. Just fastforward the next_tick
+        if time > (@next_tick + (@tick_time * 10))
+            console.log('Resuming from pause')
+            @next_tick = time
+
         @update()
         @next_tick += @tick_time
         loops += 1
