@@ -120,10 +120,7 @@ define ['cs!canvas-tools/world'], (World) ->
       super(canvas)
 
     eventResize: =>
-      @canvas.width = Math.floor(document.body.clientWidth / @scale)
-      @canvas.height = Math.floor(document.body.clientHeight / @scale)
-      @setWidth( @canvas.width )
-      @setHeight( @canvas.height )
+      super
 
       # get all the sketches too
       for object_sketches in @sketches
