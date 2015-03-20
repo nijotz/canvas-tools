@@ -29,12 +29,21 @@ define [], () ->
           return @updateObjectSpatialSub(object, oldquadx, oldquady, newquadx, newquady)
 
         updateObjectSpatialSub: (obj, oldx, oldy, newx, newy) ->
+            # Don't update if nothing changed
             if oldx == newx and oldy == newy
                 return [newx, newy]
+
+            # Remove from old quad
             quad = @spatialsubs[oldx][oldy]
-            index = quad.indexOf(obj)
-            quad.splice(index,1)
+            # During a resize (shrinking) an old quad may be referred to that
+            # no longer exists, hence this if statement
+            if quad
+                index = quad.indexOf(obj)
+                quad.splice(index,1)
+
+            # Add to new quad
             @spatialsubs[newx][newy].push(obj)
+
             return [newx, newy]
 
         calculateSpatialSubs: ->
