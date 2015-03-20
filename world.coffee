@@ -61,8 +61,8 @@ define [], () ->
       @eventResize()
 
     eventResize: =>
-      @canvas.width = Math.floor(document.body.clientWidth / @scale)
-      @canvas.height = Math.floor(document.body.clientHeight / @scale)
+      @canvas.width = @canvas.clientWidth / @scale
+      @canvas.height = @canvas.clientHeight / @scale
       @setWidth( @canvas.width )
       @setHeight( @canvas.height )
 
